@@ -1,4 +1,4 @@
--- sebmentation-fault's neovim configuration :)
+-- sebmentation-fault's neovim configuration :)init
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
@@ -18,6 +18,9 @@ vim.g.have_nerd_font = true
 vim.opt.number = true
 -- Make line numbers show relative offset to currently selected line
 vim.opt.relativenumber = true
+
+-- Set nowrap (less jarring when content flows across the terminal screen)
+vim.opt.wrap = false
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -460,6 +463,7 @@ require('lazy').setup({
           -- This may be unwanted, since they displace some of your code
           if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
             map('<leader>th', function()
+              --- @diagnostic disable-next-line
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
             end, '[T]oggle Inlay [H]ints')
           end
@@ -486,14 +490,37 @@ require('lazy').setup({
         -- See `:help lspconfig-all` for a list of all the pre-configured LSPs
         -- clangd = {},
         gopls = {},
-        templ = {},
+        templ = {
+          settings = {
+            format_on_save = true,
+            callback = require('custom.ft.templ').format(),
+          },
+        },
+        dockerls = {},
+        docker_compose_language_service = {},
         -- pyright = {},
         rust_analyzer = {},
-        htmx = {},
+        htmx = {
+          filetypes = { 'html', 'templ' },
+        },
+        bashls = {},
         tsserver = {},
         solc = {},
         cssls = {},
-        html = {},
+        html = {
+          filetypes = { 'html', 'templ' },
+        },
+        svelte = {},
+        tailwindcss = {
+          filetypes = { 'html', 'templ', 'javascript', 'typescript' },
+          settings = {
+            tailwindCSS = {
+              includeLanguages = {
+                templ = 'html',
+              },
+            },
+          },
+        },
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -508,6 +535,9 @@ require('lazy').setup({
             },
           },
         },
+
+        -- python related
+        pyright = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -770,6 +800,7 @@ require('lazy').setup({
         'css',
         'javascript',
         'typescript',
+        'templ',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
@@ -808,11 +839,11 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
