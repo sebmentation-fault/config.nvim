@@ -498,7 +498,6 @@ require('lazy').setup({
         },
         dockerls = {},
         docker_compose_language_service = {},
-        -- pyright = {},
         rust_analyzer = {},
         htmx = {
           filetypes = { 'html', 'templ' },
@@ -537,6 +536,59 @@ require('lazy').setup({
         },
 
         -- python related
+        --[[
+        pylsp = {
+          cmd = { vim.fn.expand '~/work/elandi/.venv/bin/pylsp' },
+          cwd = { vim.fn.expand '~/work/elandi/dawn/backend' },
+          settings = {
+            pylsp = {
+              plugins = {
+                pyflakes = { enabled = false },
+                pydocstyle = { enabled = false },
+                autopep8 = { enabled = false },
+                yapf = { enabled = false },
+                mccabe = { enabled = false },
+
+                black = {
+                  enabled = true,
+                  fast = true,
+                },
+
+                flake8 = {
+                  enabled = true,
+                  -- Optional: ignore certain error codes
+                  -- ignore = { 'E501' },
+                },
+
+                isort = { enabled = true },
+
+                -- Make sure jedi is configured for good auto-completion
+                jedi_completion = {
+                  enabled = true,
+                  include_params = true,
+                  fuzzy = true,
+                  include_class_objects = true,
+                  include_function_objects = true,
+                },
+
+                jedi = {
+                  auto_import_modules = { 'django', 'rest_framework' },
+                },
+
+                -- mypy works well with django-stubs and general type checking
+                pylsp_mypy = {
+                  enabled = true,
+                  executable = vim.fn.expand '~/work/elandi/.venv/bin/mypy',
+                  env = {
+                    PYTHONPATH = vim.fn.expand '~/work/elandi/dawn/backend',
+                    VIRTUAL_ENV = vim.fn.expand '~/work/elandi/.venv',
+                  },
+                },
+              },
+            },
+          },
+        },
+        --]]
         pyright = {},
       }
 
@@ -801,6 +853,7 @@ require('lazy').setup({
         'javascript',
         'typescript',
         'templ',
+        'htmldjango',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
@@ -851,7 +904,7 @@ require('lazy').setup({
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
