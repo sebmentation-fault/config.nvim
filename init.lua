@@ -503,7 +503,7 @@ require('lazy').setup({
           filetypes = { 'html', 'templ' },
         },
         bashls = {},
-        tsserver = {},
+        typescript_language_server = {},
         solc = {},
         cssls = {},
         html = {
