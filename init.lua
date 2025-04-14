@@ -587,12 +587,7 @@ require('lazy').setup({
         -- See `:help lspconfig-all` for a list of all the pre-configured LSPs
         -- clangd = {},
         gopls = {},
-        templ = {
-          settings = {
-            format_on_save = true,
-            callback = require('custom.ft.templ').format(),
-          },
-        },
+        templ = {},
         dockerls = {},
         docker_compose_language_service = {},
         rust_analyzer = {},
